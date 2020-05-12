@@ -106,7 +106,7 @@ export class userlist extends ListAbstract {
 
   }
 
-  private prepareData(data, listType): listElement[]{
+  private async prepareData(data, listType): Promise<listElement[]>{
     var newData = [] as listElement[];
     for (var i = 0; i < data.data.length; i++) {
       var list = data.data[i];
@@ -129,7 +129,7 @@ export class userlist extends ListAbstract {
       }
 
       if(listType === "anime"){
-        var tempData = this.fn({
+        var tempData = await this.fn({
           malId: malId,
           uid: el.id,
           cacheKey: helper.getCacheKey(malId, el.id),
@@ -146,7 +146,7 @@ export class userlist extends ListAbstract {
           airingState: el['anime_airing_status'],
         })
       }else{
-        var tempData = this.fn({
+        var tempData = await this.fn({
           malId: malId,
           uid: el.id,
           cacheKey: helper.getCacheKey(malId, el.id),

@@ -170,12 +170,12 @@ export class userlist extends ListAbstract {
     });
   }
 
-  private prepareData(data, listType): listElement[]{
+  private async prepareData(data, listType): Promise<listElement[]>{
     var newData = [] as listElement[];
     for (var i = 0; i < data.length; i++) {
       var el = data[i];
       if(listType === "anime"){
-        var tempData = this.fn({
+        var tempData = await this.fn({
           uid: el.media.id,
           malId: el.media.idMal,
           cacheKey: helper.getCacheKey(el.media.idMal, el.media.id),
@@ -191,7 +191,7 @@ export class userlist extends ListAbstract {
           airingState: el['anime_airing_status'],
         });
       }else{
-        var tempData = this.fn({
+        var tempData = await this.fn({
           uid: el.media.id,
           malId: el.media.idMal,
           cacheKey: helper.getCacheKey(el.media.idMal, el.media.id),

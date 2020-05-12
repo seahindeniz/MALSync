@@ -14,11 +14,11 @@ export class userlist extends ListAbstract {
   async getPart() {
     con.log('[UserList][Local]', 'status: '+this.status);
     this.done = true;
-    var data = this.prepareData(await this.getSyncList(), this.listType, this.status);
+    var data = await this.prepareData(await this.getSyncList(), this.listType, this.status);
     return data;
   }
 
-  private prepareData(data, listType, status): listElement[]{
+  private async prepareData(data, listType, status): Promise<listElement[]>{
     var newData = [] as listElement[];
      for (var key in data) {
        if(this.getRegex(listType).test(key)){
@@ -28,7 +28,7 @@ export class userlist extends ListAbstract {
            continue;
          }
          if(listType === "anime"){
-           newData.push(this.fn({
+           newData.push(await this.fn({
              airingState: 2,
              image: api.storage.assetUrl('questionmark.gif'),
              malId: 0,
@@ -45,7 +45,7 @@ export class userlist extends ListAbstract {
              watchedEp: el.progress,
            }));
          }else{
-           newData.push(this.fn({
+           newData.push(await this.fn({
              airingState: 2,
              image: api.storage.assetUrl('questionmark.gif'),
              malId: 0,

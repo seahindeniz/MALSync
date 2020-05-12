@@ -124,12 +124,12 @@
             var continueUrl = null;
             var id = this.item.malId;
             var type = this.item.type;
-            var resumeUrlObj = await utils.getResumeWaching(type, this.item.cacheKey);
-            var continueUrlObj = await utils.getContinueWaching(type, this.item.cacheKey);
+            var resumeUrlObj = this.item.options.r;
+            var continueUrlObj = this.item.options.c;
 
-            if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (ep+1)){
+            if(continueUrlObj && continueUrlObj.ep === (ep+1)){
               continueUrl = continueUrlObj.url;
-            }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === ep){
+            }else if(resumeUrlObj && resumeUrlObj.ep === ep){
               resumeUrl = resumeUrlObj.url;
             }
             this.resumeUrl = resumeUrl;
@@ -178,7 +178,7 @@
         return 'width: '+predictionProgress+'%; background-color: '+color;
       },
       streamUrl: function(){
-        return utils.getUrlFromTags(this.item.tags);
+        return this.item.options.u;
       },
       preTexter: function(){
         var pre = this.prediction.prediction;

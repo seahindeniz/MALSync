@@ -151,7 +151,7 @@ export abstract class ListAbstract {
   }
 
   // itemFunctions;
-  fn(item) {
+  async fn(item) {
     var continueUrlTemp: any = null;
     var predictionsObj: any = null;
     item['fn'] = {
@@ -172,6 +172,7 @@ export abstract class ListAbstract {
         return new epPredictions(item.malId, item.cacheKey, item.type).init().then((obj) => predictionsObj = obj);
       }
     }
+    item['options'] = await utils.getEntrySettings(item.type, item.cacheKey, item.tags);
     return item;
   }
 

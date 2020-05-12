@@ -52,15 +52,15 @@ export class userlist extends ListAbstract {
   async getPart() {
     con.log('[UserList][Simkl]', 'status: '+this.status);
     if(this.listType === 'manga') throw {code: 415, message: 'Does not support manga'}
-    return this.syncList().then((list) => {
+    return this.syncList().then(async (list) => {
       this.done = true;
-      var data = this.prepareData(Object.values(list), this.listType, this.status);
+      var data = await this.prepareData(Object.values(list), this.listType, this.status);
       con.log(data);
       return data;
     });
   }
 
-  private prepareData(data, listType, status): listElement[]{
+  private async prepareData(data, listType, status): Promise<listElement[]>{
     var newData = [] as listElement[];
     for (var i = 0; i < data.length; i++) {
       var el = data[i];
@@ -70,7 +70,7 @@ export class userlist extends ListAbstract {
       }
 
       if(listType === "anime"){
-        var tempData = this.fn({
+        var tempData = await this.fn({
           malId: el.show.ids.mal,
           uid: el.show.ids.simkl,
           cacheKey: this.getCacheKey(el.show.ids.mal, el.show.ids.simkl),

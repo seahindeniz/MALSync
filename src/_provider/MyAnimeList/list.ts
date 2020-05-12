@@ -44,9 +44,9 @@ export class userlist extends ListAbstract {
     }
     con.log('[UserList][MAL]', 'username: '+this.username, 'status: '+this.status, 'offset: '+this.offset, 'sorting: '+sorting);
     var url = 'https://myanimelist.net/'+this.listType+'list/'+this.username+'/load.json?offset='+this.offset+'&status='+this.status+sorting;
-    return api.request.xhr('GET', url).then((response) => {
+    return api.request.xhr('GET', url).then(async (response) => {
       var res = this.jsonParse(response);
-      var data = this.prepareData(res);
+      var data = await this.prepareData(res);
       if(data.length > 299){
         this.offset += 300;
       }else{
@@ -56,12 +56,12 @@ export class userlist extends ListAbstract {
     });
   }
 
-  public prepareData(data): listElement[]{
+  public async prepareData(data): Promise<listElement[]>{
     var newData = [] as listElement[];
     for (var i = 0; i < data.length; i++) {
       var el = data[i];
       if(this.listType === "anime"){
-        newData.push(this.fn({
+        newData.push(await this.fn({
           uid: el['anime_id'],
           malId: el['anime_id'],
           cacheKey: el['anime_id'],
@@ -77,7 +77,7 @@ export class userlist extends ListAbstract {
           airingState: el['anime_airing_status'],
         }))
       }else{
-        newData.push(this.fn({
+        newData.push(await this.fn({
           uid: el['manga_id'],
           malId: el['manga_id'],
           cacheKey: el['manga_id'],
