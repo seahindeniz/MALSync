@@ -160,13 +160,13 @@ export class simklClass{
     if(typeof streamUrl !== 'undefined'){
       this.malkiss.streamUrl = streamUrl;
 
-      var resumeUrlObj = await malObj.getResumeWaching();
-      var continueUrlObj = await malObj.getContinueWaching();
+      var resumeUrlObj = malObj.getResumeWatching();
+      var continueUrlObj = malObj.getContinueWatching();
       con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-      if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (malObj.getEpisode()+1)){
+      if(continueUrlObj && continueUrlObj.ep === (malObj.getEpisode()+1)){
         this.malkiss.continueUrl = continueUrlObj.url;
 
-      }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === malObj.getEpisode()){
+      }else if(resumeUrlObj && resumeUrlObj.ep === malObj.getEpisode()){
         this.malkiss.resumeUrl = resumeUrlObj.url;
       }
     }else{

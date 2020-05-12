@@ -376,12 +376,12 @@
               </a>`;
 
           con.log('Resume', this.mal.resumeUrl, 'Continue', this.mal.continueUrl);
-          if(typeof this.mal.continueUrl !== 'undefined' && this.mal.continueUrl && this.mal.continueUrl.ep === (malObj.getEpisode()+1)){
+          if(this.mal.continueUrl && this.mal.continueUrl.ep === (malObj.getEpisode()+1)){
             streamhtml +=
               `<a class="nextStream mdl-button mdl-button--colored mdl-js-button mdl-button--raised" title="${api.storage.lang('overview_Next_Episode_'+malObj.getType())}" target="_blank" style="margin: 0px 5px 0px 0px; color: white;" href="${this.mal.continueUrl.url}">
                 <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16" style="padding-bottom: 3px; padding-right: 6px; margin-left: -3px;">${api.storage.lang('overview_Next_Episode_'+malObj.getType())}
               </a>`;
-          }else if(typeof this.mal.resumeUrl !== 'undefined' && this.mal.resumeUrl && this.mal.resumeUrl.ep === malObj.getEpisode()){
+          }else if(this.mal.resumeUrl && this.mal.resumeUrl.ep === malObj.getEpisode()){
             streamhtml +=
               `<a class="resumeStream mdl-button mdl-button--colored mdl-js-button mdl-button--raised" title="${api.storage.lang('overview_Resume_Episode_'+malObj.getType())}" target="_blank" style="margin: 0px 5px 0px 0px; color: white;" href="${this.mal.resumeUrl.url}">
                 <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16" style="padding-bottom: 3px; padding-right: 6px; margin-left: -3px;">${api.storage.lang('overview_Resume_Episode_'+malObj.getType())}
@@ -490,8 +490,8 @@
           this.imageTemp = await this.renderObj.getImage();
         }
 
-        this.mal.resumeUrl = await renderObj.getResumeWaching();
-        this.mal.continueUrl = await renderObj.getContinueWaching();
+        this.mal.resumeUrl = renderObj.getResumeWatching();
+        this.mal.continueUrl = renderObj.getContinueWatching();
 
         utils.epPredictionUI(renderObj.id, renderObj.getCacheKey(), renderObj.type, (prediction) => {
           this.prediction = prediction;

@@ -227,20 +227,22 @@ export abstract class SingleAbstract {
     })
   }
 
-  public setResumeWaching(url:string, ep:number){
+  public setResumeWatching(url:string, ep:number){
     return utils.setResumeWaching(url, ep, this.type, this.getCacheKey());
   }
 
-  public getResumeWaching():{url:string, ep:number}|null{
-    return this.options.r;
+  public getResumeWatching():{url:string, ep:number}|null{
+    if(this.options && this.options.r) return this.options.r;
+    return null;
   }
 
-  public setContinueWaching(url:string, ep:number){
+  public setContinueWatching(url:string, ep:number){
     return utils.setContinueWaching(url, ep,this.type, this.getCacheKey())
   }
 
-  public getContinueWaching():{url:string, ep:number}|null{
-    return this.options.c;
+  public getContinueWatching():{url:string, ep:number}|null{
+    if(this.options && this.options.c) return this.options.c;
+    return null;
   }
 
   getStateEl() {

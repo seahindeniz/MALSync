@@ -171,7 +171,7 @@ export class kitsuClass{
     var malObj = this.page.malObj;
 
     var streamUrl = malObj.getStreamingUrl();
-    if(typeof streamUrl !== 'undefined'){
+    if(streamUrl){
 
       $(document).ready(async function(){
         $('.media--title h3').first().after(`
@@ -181,16 +181,16 @@ export class kitsuClass{
           </a>
         </div>`);
 
-        var resumeUrlObj = await malObj.getResumeWaching();
-        var continueUrlObj = await malObj.getContinueWaching();
+        var resumeUrlObj = malObj.getResumeWatching();
+        var continueUrlObj = malObj.getContinueWatching();
         con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-        if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (malObj.getEpisode()+1)){
+        if(continueUrlObj && continueUrlObj.ep === (malObj.getEpisode()+1)){
           $('#mal-sync-stream-div').append(
             `<a class="nextStream" title="${api.storage.lang('overview_Continue_'+malObj.getType())}" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${continueUrlObj.url}">
               <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
             </a>`
             );
-        }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === malObj.getEpisode()){
+        }else if(resumeUrlObj && resumeUrlObj.ep === malObj.getEpisode()){
           $('#mal-sync-stream-div').append(
             `<a class="resumeStream" title="${api.storage.lang('overview_Resume_Episode_'+malObj.getType())}" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${resumeUrlObj.url}">
               <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">
