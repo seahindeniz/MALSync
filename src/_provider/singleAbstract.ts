@@ -30,6 +30,12 @@ export abstract class SingleAbstract {
     simkl: NaN,
   };
 
+  protected options: {
+    u: string,
+    c: any,
+    r: any,
+  }|null = null;
+
   protected abstract handleUrl(url: string);
 
   public getType() {
@@ -99,13 +105,19 @@ export abstract class SingleAbstract {
 
   abstract _setStreamingUrl(streamingUrl: string): void;
   public setStreamingUrl(streamingUrl: string): SingleAbstract {
-    this._setStreamingUrl(streamingUrl);
+    if(this.options) {
+      this.options.u = streamingUrl;
+    }
     return this;
   };
 
   abstract _getStreamingUrl(): string;
-  public getStreamingUrl(): string {
-    return this._getStreamingUrl();
+  public getStreamingUrl(): string|undefined {
+    if(this.options && this.options.u) {
+      return this.options.u;
+    }
+
+    return undefined;
   };
 
   abstract _update(): Promise<void>;
@@ -119,13 +131,18 @@ export abstract class SingleAbstract {
       })
       .then(() => {
         this.persistanceState = this.getStateEl();
+
+        return utils.getEntrySettings(this.type, this.getCacheKey())
+      }).then((options) => {
+        this.options = options;
       });
   };
 
   abstract _sync(): Promise<void>;
-  public sync(): Promise<void> {
+  public async sync(): Promise<void> {
     con.log('[SINGLE]','Sync', this.ids);
     this.lastError = null;
+    await utils.setEntrySettings(this.type, this.getCacheKey(), this.options);
     return this._sync()
       .catch(e => {
         this.lastError = e;

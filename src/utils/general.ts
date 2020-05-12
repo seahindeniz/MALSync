@@ -252,7 +252,7 @@ export async function getEntrySettings(type, id, tags="") {
     //No TAG mode
     var temp = await api.storage.get('tagSettings/'+type+'/'+id);
     if(temp) {
-      var temp = JSON.parse(tagString);
+      var temp = JSON.parse(temp);
       for(var key in tempOptions){
         if(temp[key]) tempOptions[key] = temp[key];
       }
