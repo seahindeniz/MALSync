@@ -77,17 +77,13 @@ export class Single extends SingleAbstract {
     con.error('You cant set Volumes for animes');
   }
 
-  _getStreamingUrl() {
-    var tags = this.animeInfo.private_memo;
-    return utils.getUrlFromTags(tags);
-  }
-
-  _setStreamingUrl(url) {
+  _getTags() {
     var tags = this.animeInfo.private_memo;
     if(tags == null || tags == 'null') tags = '';
+    return tags;
+  }
 
-    tags = utils.setUrlInTags(url, tags);
-
+  _setTags(tags) {
     this.animeInfo.private_memo = tags;
   }
 

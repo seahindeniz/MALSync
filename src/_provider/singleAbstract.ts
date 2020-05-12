@@ -103,7 +103,9 @@ export abstract class SingleAbstract {
     return this._getVolume();
   };
 
-  abstract _setStreamingUrl(streamingUrl: string): void;
+  abstract _setTags(streamingUrl: string): void;
+  abstract _getTags(): string;
+
   public setStreamingUrl(streamingUrl: string): SingleAbstract {
     if(this.options) {
       this.options.u = streamingUrl;
@@ -111,7 +113,6 @@ export abstract class SingleAbstract {
     return this;
   };
 
-  abstract _getStreamingUrl(): string;
   public getStreamingUrl(): string|undefined {
     if(this.options && this.options.u) {
       return this.options.u;
@@ -132,7 +133,7 @@ export abstract class SingleAbstract {
       .then(() => {
         this.persistanceState = this.getStateEl();
 
-        return utils.getEntrySettings(this.type, this.getCacheKey())
+        return utils.getEntrySettings(this.type, this.getCacheKey(), this._getTags())
       }).then((options) => {
         this.options = options;
       });
@@ -142,7 +143,7 @@ export abstract class SingleAbstract {
   public async sync(): Promise<void> {
     con.log('[SINGLE]','Sync', this.ids);
     this.lastError = null;
-    await utils.setEntrySettings(this.type, this.getCacheKey(), this.options);
+    this._setTags(await utils.setEntrySettings(this.type, this.getCacheKey(), this.options, this._getTags()));
     return this._sync()
       .catch(e => {
         this.lastError = e;
