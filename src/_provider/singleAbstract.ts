@@ -231,16 +231,16 @@ export abstract class SingleAbstract {
     return utils.setResumeWaching(url, ep, this.type, this.getCacheKey());
   }
 
-  public getResumeWaching():Promise<{url:string, ep:number}>{
-    return utils.getResumeWaching(this.type, this.getCacheKey())
+  public getResumeWaching():{url:string, ep:number}|null{
+    return this.options.r;
   }
 
   public setContinueWaching(url:string, ep:number){
     return utils.setContinueWaching(url, ep,this.type, this.getCacheKey())
   }
 
-  public getContinueWaching():Promise<{url:string, ep:number}>{
-    return utils.getContinueWaching(this.type, this.getCacheKey())
+  public getContinueWaching():{url:string, ep:number}|null{
+    return this.options.c;
   }
 
   getStateEl() {
