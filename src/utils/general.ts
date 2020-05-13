@@ -50,7 +50,7 @@ export function episode(type: "anime"|"manga"){
   return api.storage.lang("UI_Episode");
 }
 
-export var syncRegex = /(^settings\/.*|^updateCheckTime$|^tempVersion$|^local:\/\/)/
+export var syncRegex = /(^settings\/.*|^updateCheckTime$|^tempVersion$|^local:\/\/|^list-tagSettings$)/
 
 export enum status {
   watching = 1,
