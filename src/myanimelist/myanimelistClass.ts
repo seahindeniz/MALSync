@@ -317,15 +317,15 @@ export class myanimelistClass{
     if(this.page == 'modern'){
       var book = {
         bookReady: function(callback){
-          utils.waitUntilTrue(function(){return $('#loading-spinner').css('display') == 'none'}, function(){
-            callback(listProvider.prepareData($.parseJSON($('.list-table').attr('data-items')!)));
+          utils.waitUntilTrue(function(){return $('#loading-spinner').css('display') == 'none'}, async function(){
+            callback(await listProvider.prepareData($.parseJSON($('.list-table').attr('data-items')!)));
 
             utils.changeDetect(() => {
               $('.tags span a').each(function( index ) {
                 if(typeof utils.getUrlFromTags($(this).text()) !== 'undefined'){
                   var par = $(this).parent().parent().parent().parent();
                   $(this).parent().remove();
-                  streamUI(This.type, par.find('.title .link').first().attr('href'), utils.getUrlFromTags($(this).text()), parseInt(par.find('.progress .link').first().text()), par.find('.title .link').first().attr('href')!.split('/')[1]);
+                  streamUI(This.type, par.find('.title .link').first().attr('href'), $(this).text(), parseInt(par.find('.progress .link').first().text()), par.find('.title .link').first().attr('href')!.split('/')[1]);
                 }
               });
             }, () => {
@@ -387,9 +387,7 @@ export class myanimelistClass{
         var id = el.malId;
         var type = el.type;
 
-        if(typeof streamUrl !== 'undefined'){
-          streamUI(type, malUrl, streamUrl, parseInt(el.watchedEp), el.cacheKey);
-        }
+        streamUI(type, malUrl, el.tags, parseInt(el.watchedEp), el.cacheKey);
 
         utils.epPredictionUI(id, el.cacheKey, type, function(prediction){
           if(!prediction) return;
@@ -401,30 +399,34 @@ export class myanimelistClass{
       book.cleanTags();
     });
 
-    async function streamUI(type, malUrl, streamUrl, curEp, cacheKey){
-      var element = book.getElement(malUrl);
-      element.find(book.streamingSelector).after(`
-        <a class="mal-sync-stream" title="${streamUrl.split('/')[2]}" target="_blank" style="margin: 0 0;" href="${streamUrl}">
-          <img src="${utils.favicon(streamUrl.split('/')[2])}">
-        </a>`);
+    async function streamUI(type, malUrl, tags, curEp, cacheKey){
+      var options = await utils.getEntrySettings(type, cacheKey, tags);
+      if(options && options.u){
+        var element = book.getElement(malUrl);
+        element.find(book.streamingSelector).after(`
+          <a class="mal-sync-stream" title="${options.u.split('/')[2]}" target="_blank" style="margin: 0 0;" href="${options.u}">
+            <img src="${utils.favicon(options.u.split('/')[2])}">
+          </a>`);
 
-      var resumeUrlObj = await utils.getResumeWaching(type, cacheKey);
-      var continueUrlObj = await utils.getContinueWaching(type, cacheKey);
+        var resumeUrlObj = options.r;
+        var continueUrlObj = options.c;
 
-      con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-      if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (curEp+1)){
-        element.find('.mal-sync-stream').after(
-          `<a class="nextStream" title="Continue watching" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${continueUrlObj.url}">
-            <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
-          </a>`
-          );
-      }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === curEp){
-        element.find('.mal-sync-stream').after(
-          `<a class="resumeStream" title="Resume watching" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${resumeUrlObj.url}">
-            <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">
-          </a>`
-          );
+        con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
+        if(continueUrlObj && continueUrlObj.ep === (curEp+1)){
+          element.find('.mal-sync-stream').after(
+            `<a class="nextStream" title="Continue watching" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${continueUrlObj.url}">
+              <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
+            </a>`
+            );
+        }else if(resumeUrlObj && resumeUrlObj.ep === curEp){
+          element.find('.mal-sync-stream').after(
+            `<a class="resumeStream" title="Resume watching" target="_blank" style="margin: 0 5px 0 0; color: #BABABA;" href="${resumeUrlObj.url}">
+              <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">
+            </a>`
+            );
+        }
       }
+
     }
   }
 
