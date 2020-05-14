@@ -381,7 +381,6 @@ export class myanimelistClass{
     book.bookReady(function(data){
       This.bookmarksHDimages();
       $.each(data, async function(index, el) {
-        var streamUrl = utils.getUrlFromTags(el.tags);
         var malUrl = el.url.replace('https://myanimelist.net','');
         con.log(malUrl);
         var id = el.malId;
