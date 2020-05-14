@@ -229,27 +229,27 @@ export class simklClass{
         var element = $('a[href^="/'+this.page!.type+'/'+en.uid+'"]');
         if(!element || element.hasClass('malSyncDone2')) return;
         element.addClass('malSyncDone2');
-        var streamUrl = utils.getUrlFromTags(en.tags);
-        if(typeof streamUrl !== 'undefined'){
-          con.log(streamUrl);
+
+        if(en.options && en.options.u){
+          con.log(en.options.u);
           element.after(`
-            <a class="mal-sync-stream mal-rem" onclick="event.stopPropagation();" title="${streamUrl.split('/')[2]}" target="_blank" style="display: inline-block; height: 0; position: relative; top: -11px; margin-left: 5px;" href="${streamUrl}">
-              <img src="${utils.favicon(streamUrl.split('/')[2])}">
+            <a class="mal-sync-stream mal-rem" onclick="event.stopPropagation();" title="${en.options.u.split('/')[2]}" target="_blank" style="display: inline-block; height: 0; position: relative; top: -11px; margin-left: 5px;" href="${en.options.u}">
+              <img src="${utils.favicon(en.options.u.split('/')[2])}">
             </a>`);
 
-          var resumeUrlObj = await utils.getResumeWaching(this.page!.type, en.cacheKey);
-          var continueUrlObj = await utils.getContinueWaching(this.page!.type, en.cacheKey);
+          var resumeUrlObj = en.options.r;
+          var continueUrlObj = en.options.c;
 
           var curEp = en.watchedEp;
 
           con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-          if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (curEp+1)){
+          if(continueUrlObj && continueUrlObj.ep === (curEp+1)){
             element.parent().append(
               `<a class="nextStream mal-rem" onclick="event.stopPropagation();" title="Continue watching" target="_blank" style="display: inline-block; height: 0; position: relative; top: -11px; margin-left: 5px; color: #BABABA;" href="${continueUrlObj.url}">
                 <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
               </a>`
               );
-          }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === curEp){
+          }else if(resumeUrlObj && resumeUrlObj.ep === curEp){
             element.parent().append(
               `<a class="resumeStream mal-rem" onclick="event.stopPropagation();" title="Resume watching" target="_blank" style="display: inline-block; height: 0; position: relative; top: -11px; margin-left: 5px; color: #BABABA;" href="${resumeUrlObj.url}">
                 <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">
@@ -287,27 +287,27 @@ export class simklClass{
           var element = $('#c'+en.uid);
           if(!element || !element.length || element.hasClass('malSyncDone2')) return;
           element.addClass('malSyncDone2').css('position', 'relative');
-          var streamUrl = utils.getUrlFromTags(en.tags);
-          if(typeof streamUrl !== 'undefined'){
-            con.log(streamUrl);
+
+          if(en.options && en.options.u){
+            con.log(en.options.u);
             element.append(`
-              <a class="mal-sync-stream mal-rem" onclick="event.stopPropagation();" title="${streamUrl.split('/')[2]}" target="_blank" style="position: absolute; z-index: 10; right: 0; top: 0; background-color: #00000057; padding: 5px;" href="${streamUrl}">
-                <img src="${utils.favicon(streamUrl.split('/')[2])}">
+              <a class="mal-sync-stream mal-rem" onclick="event.stopPropagation();" title="${en.options.u.split('/')[2]}" target="_blank" style="position: absolute; z-index: 10; right: 0; top: 0; background-color: #00000057; padding: 5px;" href="${en.options.u}">
+                <img src="${utils.favicon(en.options.u.split('/')[2])}">
               </a>`);
 
-            var resumeUrlObj = await utils.getResumeWaching(This.page!.type, en.cacheKey);
-            var continueUrlObj = await utils.getContinueWaching(This.page!.type, en.cacheKey);
+            var resumeUrlObj = en.options.r;
+            var continueUrlObj = en.options.c;
 
             var curEp = en.watchedEp;
 
             con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-            if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (curEp+1)){
+            if(continueUrlObj && continueUrlObj.ep === (curEp+1)){
               element.append(
                 `<a class="nextStream mal-rem" onclick="event.stopPropagation();" title="Continue watching" target="_blank" style="position: absolute; z-index: 10; right: 0; top: 26px; background-color: #00000057; padding: 5px;" href="${continueUrlObj.url}">
                   <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
                 </a>`
                 );
-            }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === curEp){
+            }else if(resumeUrlObj && resumeUrlObj.ep === curEp){
               element.append(
                 `<a class="resumeStream mal-rem" onclick="event.stopPropagation();" title="Resume watching" target="_blank" style="position: absolute; z-index: 10; right: 0; top: 26px; background-color: #00000057; padding: 5px;" href="${resumeUrlObj.url}">
                   <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">

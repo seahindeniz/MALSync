@@ -19,6 +19,11 @@ export interface listElement {
     continueUrl: () => string,
     predictions: () => any,
   },
+  options?: {
+    u: string,
+    r: any,
+    c: any
+  }
 }
 
 export abstract class ListAbstract {
