@@ -362,31 +362,30 @@ export class kitsuClass{
             con.log(element);
             element.addClass('malSyncDone2');
 
-            var streamUrl = utils.getUrlFromTags(en.tags);
-            if(typeof streamUrl !== 'undefined'){
-              con.log(streamUrl);
+            if(en.options && en.options.u){
+              con.log(en.options.u);
               if(cover){
                 element.prepend(`
-                  <a class="mal-sync-stream mal-rem" title="${streamUrl.split('/')[2]}" target="_blank" style="margin: 0 0; z-index: 22; position:absolute; left: 0px; top: 0px; background-color: #ffffff5c; padding: 0 5px 3px 5px;" href="${streamUrl}">
-                    <img src="${utils.favicon(streamUrl.split('/')[2])}">
+                  <a class="mal-sync-stream mal-rem" title="${en.options.u.split('/')[2]}" target="_blank" style="margin: 0 0; z-index: 22; position:absolute; left: 0px; top: 0px; background-color: #ffffff5c; padding: 0 5px 3px 5px;" href="${en.options.u}">
+                    <img src="${utils.favicon(en.options.u.split('/')[2])}">
                   </a>`);
               }else{
                 element.find('.title-wrapper').append(`
-                  <a class="mal-sync-stream mal-rem" title="${streamUrl.split('/')[2]}" target="_blank" style="padding: 0 5px;" href="${streamUrl}">
-                    <img src="${utils.favicon(streamUrl.split('/')[2])}">
+                  <a class="mal-sync-stream mal-rem" title="${en.options.u.split('/')[2]}" target="_blank" style="padding: 0 5px;" href="${en.options.u}">
+                    <img src="${utils.favicon(en.options.u.split('/')[2])}">
                   </a>`);
               }
 
 
             }
 
-            var resumeUrlObj = await utils.getResumeWaching(This.page!.type, en.cacheKey);
-            var continueUrlObj = await utils.getContinueWaching(This.page!.type, en.cacheKey);
+            var resumeUrlObj = en.options.r;
+            var continueUrlObj = en.options.c;
 
             var curEp = en.watchedEp;
 
             con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-            if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (curEp+1)){
+            if(continueUrlObj && continueUrlObj.ep === (curEp+1)){
               if(cover){
                 element.prepend(
                   `<a class="nextStream mal-rem" title="Continue watching" target="_blank" style="color: #BABABA; z-index: 22; position:absolute; top: 0px; left: 26px; background-color: #ffffff5c; padding: 0 5px 3px 5px;" href="${continueUrlObj.url}">
@@ -400,7 +399,7 @@ export class kitsuClass{
                   </a>`
                   );
               }
-            }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === curEp){
+            }else if(resumeUrlObj && resumeUrlObj.ep === curEp){
               if(cover){
                 element.prepend(
                   `<a class="resumeStream mal-rem" title="Resume watching" target="_blank" style="color: #BABABA; z-index: 22; position:absolute; top: 0px; left: 26px; background-color: #ffffff5c; padding: 0 5px 3px 5px;" href="${resumeUrlObj.url}">
