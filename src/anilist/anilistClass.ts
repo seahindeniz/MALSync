@@ -274,26 +274,15 @@ export class anilistClass{
     $(document).ready(() => {
       $('.list-entries .entry, .list-entries .entry-card').not('.malSyncDone').each((index, el) => {
         $(el).addClass('malSyncDone')
-        var streamUrl = utils.getUrlFromTags($(el).find('.notes').first().attr('label'));
-        if(typeof streamUrl !== 'undefined'){
-          con.log(streamUrl);
-          $(el).find('.title a').first().after(`
-            <a class="mal-sync-stream mal-rem" title="${streamUrl.split('/')[2]}" target="_blank" style="margin: 0 0; max-height: 14px;" href="${streamUrl}">
-              <img src="${utils.favicon(streamUrl.split('/')[2])}">
-            </a>`);
-
-          var label = $(el).find('.notes').first().attr('label');
-          if(typeof label != 'undefined'){
-            label = label.replace(/(malSync|last)::[\d\D]+::/,'').replace(/#,/, '');
-            if(label.trim() === '' || label.trim() === ','){
-              $(el).find('.notes').first().css('visibility', 'hidden');
-            }else{
-              $(el).find('.notes').first().attr('label', label);
-            }
+        var label = $(el).find('.notes').first().attr('label');
+        if(typeof label != 'undefined'){
+          label = label.replace(/(malSync|last)::[\d\D]+::/,'').replace(/#,/, '');
+          if(label.trim() === '' || label.trim() === ','){
+            $(el).find('.notes').first().css('visibility', 'hidden');
+          }else{
+            $(el).find('.notes').first().attr('label', label);
           }
-
         }
-
       })
 
       if(this.page!.type == 'anime'){
@@ -310,7 +299,7 @@ export class anilistClass{
 
       var listProvider = new userlist(1, this.page!.type);
 
-      listProvider.compact = true;
+
 
       listProvider.get().then( (list) => {
         if(this.page!.type == 'anime'){
@@ -327,25 +316,34 @@ export class anilistClass{
       function fullListCallback(list){
         con.log(list);
         $.each(list, async (index, en) => {
-          con.log('en', en);
-          if(typeof en.malid !== 'undefined' && en.malid !== null && en.malid){
-            var element = $('.entry:not(.malSyncDone2) a[href^="/'+This.page!.type+'/'+en.id+'/"], .entry-card:not(.malSyncDone2) a[href^="/'+This.page!.type+'/'+en.id+'/"]').first().parent();
-            con.log(element);
+
+          var tempEl = $('.entry:not(.malSyncDone2) a[href^="/'+This.page!.type+'/'+en.uid+'/"], .entry-card:not(.malSyncDone2) a[href^="/'+This.page!.type+'/'+en.uid+'/"]');
+          if(tempEl.length) {
+            var element = tempEl.first().parent();
+
             element.parent().addClass('malSyncDone2');
 
-            var resumeUrlObj = await utils.getResumeWaching(This.page!.type, en.cacheKey);
-            var continueUrlObj = await utils.getContinueWaching(This.page!.type, en.cacheKey);
+            if(en.options && en.options.u){
+              con.log(en.options.u);
+              element.find('a').first().after(`
+                <a class="mal-sync-stream mal-rem" title="${en.options.u.split('/')[2]}" target="_blank" style="margin: 0 0; max-height: 14px;" href="${en.options.u}">
+                  <img src="${utils.favicon(en.options.u.split('/')[2])}">
+                </a>`);
+            }
+
+            var resumeUrlObj = en.options.r;
+            var continueUrlObj = en.options.c;
 
             var curEp = en.watchedEp;
 
             con.log('Resume', resumeUrlObj, 'Continue', continueUrlObj);
-            if(typeof continueUrlObj !== 'undefined' && continueUrlObj.ep === (curEp+1)){
+            if(continueUrlObj&& continueUrlObj.ep === (curEp+1)){
               element.prepend(
                 `<a class="nextStream mal-rem" title="Continue watching" target="_blank" style="margin: -2px 5px 0 0; color: #BABABA;" href="${continueUrlObj.url}">
                   <img src="${api.storage.assetUrl('double-arrow-16px.png')}" width="16" height="16">
                 </a>`
                 );
-            }else if(typeof resumeUrlObj !== 'undefined' && resumeUrlObj.ep === curEp){
+            }else if(resumeUrlObj && resumeUrlObj.ep === curEp){
               element.prepend(
                 `<a class="resumeStream mal-rem" title="Resume watching" target="_blank" style="margin: -2px 5px 0 0; color: #BABABA;" href="${resumeUrlObj.url}">
                   <img src="${api.storage.assetUrl('arrow-16px.png')}" width="16" height="16">
@@ -361,9 +359,7 @@ export class anilistClass{
           }
 
 
-
         })
-
 
 
       }
