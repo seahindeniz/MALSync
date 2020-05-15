@@ -121,6 +121,10 @@ export abstract class SingleAbstract {
     return undefined;
   };
 
+  public cleanTags(){
+    this.options = null;
+  }
+
   abstract _update(): Promise<void>;
   public update(): Promise<void> {
     con.log('[SINGLE]','Update info', this.ids);

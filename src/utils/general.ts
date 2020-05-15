@@ -220,6 +220,8 @@ export async function setEntrySettings(type, id, options, tags="") {
       await api.storage.set('tagSettings/'+type+'/'+id, JSON.stringify(tempOptions));
     }
 
+  }else{
+    tags = setUrlInTags('', tags);
   }
   return tags;
 }

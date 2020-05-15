@@ -80,7 +80,7 @@
   async function cleanTags(url){
     var entryClass = getSingle(url);
     return entryClass.update().then( () => {
-      entryClass.setStreamingUrl('');
+      entryClass.cleanTags();
       return entryClass.sync();
     }).catch((e) => {
       con.error(e);
