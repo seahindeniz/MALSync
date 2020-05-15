@@ -133,8 +133,8 @@
             <span v-html="lang('settings_malTags_Text')"></span>
           </tooltip>
         </checkbox>
-        <checkbox option="malContinue" v-show="options.malTags">{{lang("settings_malContinue")}}</checkbox>
-        <checkbox option="malResume" v-show="options.malTags">{{lang("settings_malResume")}}</checkbox>
+        <checkbox option="malContinue">{{lang("settings_malContinue")}}</checkbox>
+        <checkbox option="malResume">{{lang("settings_malResume")}}</checkbox>
       </div>
 
       <div class="mdl-cell bg-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-shadow--4dp">

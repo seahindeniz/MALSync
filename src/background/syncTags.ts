@@ -38,6 +38,7 @@ function importList(){
     for(var i in list) {
       var el = list[i];
       if(el.timestamp > curDate){
+        con.info('Import', el.key, el.value);
         await api.storage.set(el.key, el.value);
         num++;
       }
