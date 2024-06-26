@@ -1,7 +1,4 @@
 {
-  "0.9.4": {
-    "iframe": []
-  },
   "0.9.5": {
     "AnimeUnity": [
       "https://www.animeunity.to/anime/*"
@@ -305,6 +302,74 @@
       "https://graceaddresscommunity.com/e/*",
       "https://shannonpersonalcost.com/e/*",
       "https://animeflix.ci/player?*"
+    ]
+  },
+  "0.10.2": {
+    "Animeflix": [
+      "https://animeflix.live/*",
+      "https://animeflix.icu/*",
+      "https://animeflix.ro/*"
+    ],
+    "Gogoanime": [
+      "https://anitaku.pe/*"
+    ],
+    "Toonily": [
+      "https://toonily.net/manga/*"
+    ],
+    "iframe": [
+      "https://mcloud2.to/*",
+      "https://mzcloud.life/*",
+      "https://prettyfast.to/*",
+      "https://rapidvideo.com/*",
+      "https://rapidvid.to/*",
+      "https://vidstreaming.me/*",
+      "https://vidstreamingvw.xyz/*",
+      "https://vidstreaming1.xyz/*",
+      "https://player.zerostream.de/v/*",
+      "https://crazyload.co/*",
+      "https://flex.aniflex.org/public/dist/*",
+      "https://superitu.com/embed/*",
+      "https://www.funimation.com/player/*",
+      "https://hydracdn.network/*",
+      "https://animo-pace-stream.io/*",
+      "https://veestream.net/e/*",
+      "https://plyr.in/*",
+      "https://v.cdnmix.org/*",
+      "https://v.cachecow.eu/*",
+      "https://cloud9.to/e*/*",
+      "https://okgaming.org/I/*",
+      "https://gogoplay3.com/streaming.php?*",
+      "https://gogoplay3.com/load.php?*",
+      "https://gogoplay3.com/loadserver.php?*",
+      "https://gogoplay3.com/embedplus*",
+      "https://s3taku.com/embedplus*",
+      "https://s3taku.com/streaming.php?*",
+      "https://s3taku.com/load.php?*",
+      "https://s3taku.com/loadserver.php?*",
+      "https://ani.googledrive.stream/vidstreaming/*",
+      "https://vizcloud2.online/embed/*",
+      "https://vizcloud2.online/e/*",
+      "https://vizcloud.live/embed/*",
+      "https://vizcloud.live/e/*",
+      "https://vizcloud.digital/embed/*",
+      "https://vizcloud.digital/e/*",
+      "https://vizcloud.store/embed/*",
+      "https://vizcloud.store/e/*",
+      "https://vizcloud.site/embed/*",
+      "https://vizcloud.site/e/*",
+      "https://steamsb.net/*",
+      "https://loriwithinfamily.com/e/*",
+      "https://kaa-play.com/*",
+      "https://kaaplayer.com/*",
+      "https://betaplayer.life/*",
+      "https://nezuko-ah.nl/*",
+      "https://vidcloud.one/*",
+      "https://beststremo.xyz/*",
+      "https://beststremo.com/*",
+      "https://cloneplayer.xyz/*",
+      "https://maverickki.com/*",
+      "https://kaast1.com/*",
+      "https://kanra.dev/*"
     ]
   }
 }
